@@ -1,0 +1,11 @@
+version: '2'
+services:
+  insurance-postgresql:
+    image: postgres:11.5
+    # volumes:
+    #     - ~/volumes/jhipster/insurance/postgresql/:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=insurance
+      - POSTGRES_PASSWORD=
+    ports:
+      - 5432:5432
