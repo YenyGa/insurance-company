@@ -1,0 +1,11 @@
+{
+  "insuranceApp": {
+    "InsuranceType": {
+      "null": "",
+      "EARTHQUAKE": "EARTHQUAKE",
+      "FIRE": "FIRE",
+      "ROBBERY": "ROBBERY",
+      "LOST": "LOST"
+    }
+  }
+}

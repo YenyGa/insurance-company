@@ -1,0 +1,59 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="insurance">
+            <h2><span jhiTranslate="insuranceApp.insurance.detail.title">Insurance</span> {{insurance.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="insuranceApp.insurance.name">Name</span></dt>
+                <dd>
+                    <span>{{insurance.name}}</span>
+                </dd>
+                <dt><span jhiTranslate="insuranceApp.insurance.description">Description</span></dt>
+                <dd>
+                    <span>{{insurance.description}}</span>
+                </dd>
+                <dt><span jhiTranslate="insuranceApp.insurance.coveragePercentage">Coverage Percentage</span></dt>
+                <dd>
+                    <span>{{insurance.coveragePercentage}}</span>
+                </dd>
+                <dt><span jhiTranslate="insuranceApp.insurance.startDate">Start Date</span></dt>
+                <dd>
+                    <span>{{insurance.startDate}}</span>
+                </dd>
+                <dt><span jhiTranslate="insuranceApp.insurance.coveragePeriod">Coverage Period</span></dt>
+                <dd>
+                    <span>{{insurance.coveragePeriod}}</span>
+                </dd>
+                <dt><span jhiTranslate="insuranceApp.insurance.price">Price</span></dt>
+                <dd>
+                    <span>{{insurance.price}}</span>
+                </dd>
+                <dt><span jhiTranslate="insuranceApp.insurance.insuranceType">Insurance Type</span></dt>
+                <dd>
+                    <span jhiTranslate="{{'insuranceApp.InsuranceType.' + insurance.insuranceType}}">{{insurance.insuranceType}}</span>
+                </dd>
+                <dt><span jhiTranslate="insuranceApp.insurance.riskType">Risk Type</span></dt>
+                <dd>
+                    <span jhiTranslate="{{'insuranceApp.RiskType.' + insurance.riskType}}">{{insurance.riskType}}</span>
+                </dd>
+                <dt><span jhiTranslate="insuranceApp.insurance.user">User</span></dt>
+                <dd>
+                    {{insurance.user?.id}}
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/insurance', insurance.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

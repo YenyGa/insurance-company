@@ -1,0 +1,132 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+            <h2 id="jhi-insurance-heading" jhiTranslate="insuranceApp.insurance.home.createOrEditLabel">Create or edit a Insurance</h2>
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+                <div class="form-group" [hidden]="!editForm.get('id').value">
+                    <label for="id" jhiTranslate="global.field.id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id" formControlName="id"
+                        readonly />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="insuranceApp.insurance.name" for="field_name">Name</label>
+                    <input type="text" class="form-control" name="name" id="field_name"
+                           formControlName="name"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="insuranceApp.insurance.description" for="field_description">Description</label>
+                    <input type="text" class="form-control" name="description" id="field_description"
+                           formControlName="description"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="insuranceApp.insurance.coveragePercentage" for="field_coveragePercentage">Coverage Percentage</label>
+                    <input type="number" class="form-control" name="coveragePercentage" id="field_coveragePercentage"
+                           formControlName="coveragePercentage"/>
+                    <div *ngIf="editForm.get('coveragePercentage').invalid && (editForm.get('coveragePercentage').dirty || editForm.get('coveragePercentage').touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('coveragePercentage').errors.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.get('coveragePercentage')?.errors?.number" jhiTranslate="entity.validation.number">
+                            This field should be a number.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="insuranceApp.insurance.startDate" for="field_startDate">Start Date</label>
+                    <div class="d-flex">
+                        <input id="field_startDate" type="datetime-local" class="form-control" name="startDate" formControlName="startDate" placeholder="YYYY-MM-DD HH:mm"/>
+                    </div>
+                    <div *ngIf="editForm.get('startDate').invalid && (editForm.get('startDate').dirty || editForm.get('startDate').touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('startDate').errors.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.get('startDate').errors?.ZonedDateTimelocal" jhiTranslate="entity.validation.ZonedDateTimelocal">
+                            This field should be a date and time.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="insuranceApp.insurance.coveragePeriod" for="field_coveragePeriod">Coverage Period</label>
+                    <input type="number" class="form-control" name="coveragePeriod" id="field_coveragePeriod"
+                           formControlName="coveragePeriod"/>
+                    <div *ngIf="editForm.get('coveragePeriod').invalid && (editForm.get('coveragePeriod').dirty || editForm.get('coveragePeriod').touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('coveragePeriod').errors.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.get('coveragePeriod')?.errors?.number" jhiTranslate="entity.validation.number">
+                            This field should be a number.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="insuranceApp.insurance.price" for="field_price">Price</label>
+                    <input type="number" class="form-control" name="price" id="field_price"
+                           formControlName="price"/>
+                    <div *ngIf="editForm.get('price').invalid && (editForm.get('price').dirty || editForm.get('price').touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('price').errors.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.get('price')?.errors?.number" jhiTranslate="entity.validation.number">
+                            This field should be a number.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="insuranceApp.insurance.insuranceType" for="field_insuranceType">Insurance Type</label>
+                    <select class="form-control" name="insuranceType" formControlName="insuranceType" id="field_insuranceType">
+                        <option value="EARTHQUAKE">{{'insuranceApp.InsuranceType.EARTHQUAKE' | translate}}</option>
+                        <option value="FIRE">{{'insuranceApp.InsuranceType.FIRE' | translate}}</option>
+                        <option value="ROBBERY">{{'insuranceApp.InsuranceType.ROBBERY' | translate}}</option>
+                        <option value="LOST">{{'insuranceApp.InsuranceType.LOST' | translate}}</option>
+                    </select>
+                    <div *ngIf="editForm.get('insuranceType').invalid && (editForm.get('insuranceType').dirty || editForm.get('insuranceType').touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('insuranceType').errors.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="insuranceApp.insurance.riskType" for="field_riskType">Risk Type</label>
+                    <select class="form-control" name="riskType" formControlName="riskType" id="field_riskType">
+                        <option value="LOW">{{'insuranceApp.RiskType.LOW' | translate}}</option>
+                        <option value="MID">{{'insuranceApp.RiskType.MID' | translate}}</option>
+                        <option value="MIDLOW">{{'insuranceApp.RiskType.MIDLOW' | translate}}</option>
+                        <option value="HIGH">{{'insuranceApp.RiskType.HIGH' | translate}}</option>
+                    </select>
+                    <div *ngIf="editForm.get('riskType').invalid && (editForm.get('riskType').dirty || editForm.get('riskType').touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('riskType').errors.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="insuranceApp.insurance.user" for="field_user">User</label>
+                    <select class="form-control" id="field_user" name="user" formControlName="user">
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="userOption.id === editForm.get('user').value?.id ? editForm.get('user').value : userOption" *ngFor="let userOption of users; trackBy: trackUserById">{{userOption.id}}</option>
+                    </select>
+                </div>
+            </div>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

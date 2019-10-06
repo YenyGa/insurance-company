@@ -1,0 +1,30 @@
+{
+  "insuranceApp": {
+    "insurance": {
+      "home": {
+        "title": "Insurances",
+        "createLabel": "Create a new Insurance",
+        "createOrEditLabel": "Create or edit a Insurance",
+        "notFound": "No Insurances found"
+      },
+      "created": "A new Insurance is created with identifier {{ param }}",
+      "updated": "A Insurance is updated with identifier {{ param }}",
+      "deleted": "A Insurance is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Insurance {{ id }}?"
+      },
+      "detail": {
+        "title": "Insurance"
+      },
+      "name": "Name",
+      "description": "Description",
+      "coveragePercentage": "Coverage Percentage",
+      "startDate": "Start Date",
+      "coveragePeriod": "Coverage Period",
+      "price": "Price",
+      "insuranceType": "Insurance Type",
+      "riskType": "Risk Type",
+      "user": "User"
+    }
+  }
+}
