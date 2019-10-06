@@ -6,6 +6,7 @@ import com.insurance.web.rest.errors.BadRequestAlertException;
 
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
+import io.swagger.annotations.ApiParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -89,6 +90,19 @@ public class InsuranceResource {
     public List<Insurance> getAllInsurances() {
         log.debug("REST request to get all Insurances");
         return insuranceRepository.findAll();
+    }
+
+    /**
+     * {@code GET  /insurances?userId=:userId/} : get insurances by User.
+     *
+     * @param userId the id of the user to search by.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of insurances in body.)
+     */
+    @GetMapping("/insurances/user")
+    public List<Insurance> getInsurancesByUser(
+        @ApiParam("User id") @RequestParam(value = "userId") final long userId) {
+        log.debug("REST request to get Insurances by User : {}", userId);
+        return insuranceRepository.findByUserId(userId);
     }
 
     /**

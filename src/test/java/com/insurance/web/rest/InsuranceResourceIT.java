@@ -2,9 +2,13 @@ package com.insurance.web.rest;
 
 import com.insurance.InsuranceApp;
 import com.insurance.domain.Insurance;
+import com.insurance.domain.User;
+import com.insurance.domain.enumeration.InsuranceType;
+import com.insurance.domain.enumeration.RiskType;
 import com.insurance.repository.InsuranceRepository;
+import com.insurance.repository.UserRepository;
 import com.insurance.web.rest.errors.ExceptionTranslator;
-
+import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockitoAnnotations;
@@ -27,11 +31,13 @@ import java.util.List;
 import static com.insurance.web.rest.TestUtil.createFormattingConversionService;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
-import com.insurance.domain.enumeration.InsuranceType;
-import com.insurance.domain.enumeration.RiskType;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 /**
  * Integration tests for the {@link InsuranceResource} REST controller.
  */
@@ -66,8 +72,18 @@ public class InsuranceResourceIT {
     private static final RiskType DEFAULT_RISK_TYPE = RiskType.LOW;
     private static final RiskType UPDATED_RISK_TYPE = RiskType.MID;
 
+    private static final String DEFAULT_LOGIN = "johndoe";
+    private static final String DEFAULT_EMAIL = "johndoe@localhost";
+    private static final String DEFAULT_FIRSTNAME = "john";
+    private static final String DEFAULT_LASTNAME = "doe";
+    private static final String DEFAULT_IMAGEURL = "http://placehold.it/50x50";
+    private static final String DEFAULT_LANGKEY = "en";
+
     @Autowired
     private InsuranceRepository insuranceRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
@@ -314,6 +330,54 @@ public class InsuranceResourceIT {
             .andExpect(jsonPath("$.[*].price").value(hasItem(DEFAULT_PRICE.intValue())))
             .andExpect(jsonPath("$.[*].insuranceType").value(hasItem(DEFAULT_INSURANCE_TYPE.toString())))
             .andExpect(jsonPath("$.[*].riskType").value(hasItem(DEFAULT_RISK_TYPE.toString())));
+    }
+
+    @Test
+    @Transactional
+    public void getAllInsurancesByUser() throws Exception {
+        // Initialize the database
+        User user = new User();
+        user.setLogin(DEFAULT_LOGIN + RandomStringUtils.randomAlphabetic(5));
+        user.setPassword(RandomStringUtils.random(60));
+        user.setActivated(true);
+        user.setEmail(RandomStringUtils.randomAlphabetic(5) + DEFAULT_EMAIL);
+        user.setFirstName(DEFAULT_FIRSTNAME);
+        user.setLastName(DEFAULT_LASTNAME);
+        user.setImageUrl(DEFAULT_IMAGEURL);
+        user.setLangKey(DEFAULT_LANGKEY);
+
+        User savedUser = userRepository.saveAndFlush(user);
+
+        Insurance insurance = new Insurance()
+            .name(DEFAULT_NAME)
+            .description(DEFAULT_DESCRIPTION)
+            .coveragePercentage(DEFAULT_COVERAGE_PERCENTAGE)
+            .startDate(DEFAULT_START_DATE)
+            .coveragePeriod(DEFAULT_COVERAGE_PERIOD)
+            .price(DEFAULT_PRICE)
+            .insuranceType(DEFAULT_INSURANCE_TYPE)
+            .riskType(DEFAULT_RISK_TYPE)
+            .user(savedUser);
+
+        Insurance insurance2 = new Insurance()
+            .name(DEFAULT_NAME)
+            .description(DEFAULT_DESCRIPTION)
+            .coveragePercentage(DEFAULT_COVERAGE_PERCENTAGE)
+            .startDate(DEFAULT_START_DATE)
+            .coveragePeriod(DEFAULT_COVERAGE_PERIOD)
+            .price(DEFAULT_PRICE)
+            .insuranceType(DEFAULT_INSURANCE_TYPE)
+            .riskType(DEFAULT_RISK_TYPE)
+            .user(savedUser);
+
+        insuranceRepository.saveAndFlush(insurance);
+        insuranceRepository.saveAndFlush(insurance2);
+
+        // Get the insuranceList by User
+        restInsuranceMockMvc.perform(get("/api/insurances?userId=" +savedUser.getId()))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.[*].user.id").value(hasItem(savedUser.getId().intValue())));
     }
     
     @Test
