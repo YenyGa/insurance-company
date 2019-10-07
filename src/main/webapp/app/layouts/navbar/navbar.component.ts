@@ -4,7 +4,6 @@ import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { JhiLanguageService } from 'ng-jhipster';
 import { SessionStorageService } from 'ngx-webstorage';
 
-import { VERSION } from 'app/app.constants';
 import { JhiLanguageHelper } from 'app/core/language/language.helper';
 import { AccountService } from 'app/core/auth/account.service';
 import { LoginModalService } from 'app/core/login/login-modal.service';
@@ -22,7 +21,6 @@ export class NavbarComponent implements OnInit {
   languages: any[];
   swaggerEnabled: boolean;
   modalRef: NgbModalRef;
-  version: string;
 
   constructor(
     private loginService: LoginService,
@@ -34,7 +32,6 @@ export class NavbarComponent implements OnInit {
     private profileService: ProfileService,
     private router: Router
   ) {
-    this.version = VERSION ? (VERSION.toLowerCase().startsWith('v') ? VERSION : 'v' + VERSION) : '';
     this.isNavbarCollapsed = true;
   }
 
