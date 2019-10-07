@@ -1,7 +1,7 @@
 <div class="row justify-content-center">
     <div class="col-8">
         <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
-            <h2 id="jhi-insurance-heading" jhiTranslate="insuranceApp.insurance.home.createOrEditLabel">Create or edit a Insurance</h2>
+            <h2 id="jhi-insurance-heading" jhiTranslate="insuranceApp.insurance.home.createOrEditLabel">Create or edit an Insurance</h2>
             <div>
                 <jhi-alert-error></jhi-alert-error>
                 <div class="form-group" [hidden]="!editForm.get('id').value">
