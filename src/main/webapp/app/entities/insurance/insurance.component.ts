@@ -40,11 +40,31 @@ export class InsuranceComponent implements OnInit, OnDestroy {
       );
   }
 
+  loadByUser(userId: number) {
+    this.insuranceService
+      .queryByUser(userId)
+      .pipe(
+        filter((res: HttpResponse<IInsurance[]>) => res.ok),
+        map((res: HttpResponse<IInsurance[]>) => res.body)
+      )
+      .subscribe(
+        (res: IInsurance[]) => {
+          this.insurances = res;
+        },
+        (res: HttpErrorResponse) => this.onError(res.message)
+      );
+  }
+
   ngOnInit() {
-    this.loadAll();
     this.accountService.identity().then(account => {
       this.currentAccount = account;
+      if (this.currentAccount.authorities.includes('ROLE_ADMIN')) {
+        this.loadAll();
+      } else {
+        this.loadByUser(this.currentAccount.id);
+      }
     });
+
     this.registerChangeInInsurances();
   }
 
