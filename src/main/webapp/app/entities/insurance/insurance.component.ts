@@ -58,7 +58,7 @@ export class InsuranceComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.accountService.identity().then(account => {
       this.currentAccount = account;
-      if (this.currentAccount.authorities.includes('ROLE_ADMIN')) {
+      if (this.isAdmin()) {
         this.loadAll();
       } else {
         this.loadByUser(this.currentAccount.id);
@@ -68,12 +68,12 @@ export class InsuranceComponent implements OnInit, OnDestroy {
     this.registerChangeInInsurances();
   }
 
-  ngOnDestroy() {
-    this.eventManager.destroy(this.eventSubscriber);
+  isAdmin(): boolean {
+    return this.currentAccount ? this.currentAccount.authorities.includes('ROLE_ADMIN') : null;
   }
 
-  trackId(index: number, item: IInsurance) {
-    return item.id;
+  ngOnDestroy() {
+    this.eventManager.destroy(this.eventSubscriber);
   }
 
   registerChangeInInsurances() {

@@ -4,6 +4,7 @@
       "home": {
         "title": "Insurances",
         "createLabel": "Create a new Insurance",
+        "requestLabel": "Request a new Insurance",
         "createOrEditLabel": "Create or edit an Insurance",
         "notFound": "No Insurances found"
       },

@@ -13,6 +13,7 @@ import { IInsurance, Insurance } from 'app/shared/model/insurance.model';
 import { InsuranceService } from './insurance.service';
 import { IUser } from 'app/core/user/user.model';
 import { UserService } from 'app/core/user/user.service';
+import { AccountService } from '../../core/auth/account.service';
 
 @Component({
   selector: 'jhi-insurance-update',
@@ -36,12 +37,15 @@ export class InsuranceUpdateComponent implements OnInit {
     user: []
   });
 
+  currentAccount: any;
+
   constructor(
     protected jhiAlertService: JhiAlertService,
     protected insuranceService: InsuranceService,
     protected userService: UserService,
     protected activatedRoute: ActivatedRoute,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    protected accountService: AccountService
   ) {}
 
   ngOnInit() {
@@ -49,6 +53,17 @@ export class InsuranceUpdateComponent implements OnInit {
     this.activatedRoute.data.subscribe(({ insurance }) => {
       this.updateForm(insurance);
     });
+    this.accountService.identity().then(account => {
+      this.currentAccount = account;
+      if (this.isAdmin()) {
+        this.getAllUsersInfo();
+      } else {
+        this.getUserInfo(this.currentAccount.login);
+      }
+    });
+  }
+
+  getAllUsersInfo() {
     this.userService
       .query()
       .pipe(
@@ -56,6 +71,26 @@ export class InsuranceUpdateComponent implements OnInit {
         map((response: HttpResponse<IUser[]>) => response.body)
       )
       .subscribe((res: IUser[]) => (this.users = res), (res: HttpErrorResponse) => this.onError(res.message));
+  }
+
+  getUserInfo(login: string) {
+    this.userService
+      .find(login)
+      .pipe(
+        filter((mayBeOk: HttpResponse<IUser>) => mayBeOk.ok),
+        map((response: HttpResponse<IUser>) => response.body)
+      )
+      .subscribe((res: IUser) => this.setUserData(res), (res: HttpErrorResponse) => this.onError(res.message));
+  }
+
+  setUserData(user: IUser) {
+    this.users = [user];
+    this.editForm.get('user').setValue(this.users[0]);
+    this.editForm.get('user').disable();
+  }
+
+  isAdmin(): boolean {
+    return this.currentAccount ? this.currentAccount.authorities.includes('ROLE_ADMIN') : null;
   }
 
   updateForm(insurance: IInsurance) {
@@ -118,9 +153,5 @@ export class InsuranceUpdateComponent implements OnInit {
   }
   protected onError(errorMessage: string) {
     this.jhiAlertService.error(errorMessage, null, null);
-  }
-
-  trackUserById(index: number, item: IUser) {
-    return item.id;
   }
 }
