@@ -11,7 +11,7 @@
         },
         {
             "fieldName": "coveragePercentage",
-            "fieldType": "Integer",
+            "fieldType": "BigDecimal",
             "fieldValidateRules": [
                 "required"
             ]

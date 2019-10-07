@@ -15,9 +15,9 @@ class ValidInsuranceRequestImplTest {
     @Test
     void shouldBeValidForHighRisk() {
         Insurance insurance = new Insurance()
-            .coveragePercentage(40)
+            .coveragePercentage(BigDecimal.valueOf(0.40))
             .startDate(Instant.now())
-            .coveragePeriod(2)
+            .coveragePeriod(2L)
             .price(new BigDecimal(4000))
             .insuranceType(InsuranceType.EARTHQUAKE)
             .riskType(RiskType.HIGH);
@@ -30,9 +30,9 @@ class ValidInsuranceRequestImplTest {
     @Test
     void shouldNotBeValidForHighRisk() {
         Insurance insurance = new Insurance()
-            .coveragePercentage(60)
+            .coveragePercentage(BigDecimal.valueOf(0.60))
             .startDate(Instant.now())
-            .coveragePeriod(2)
+            .coveragePeriod(2L)
             .price(new BigDecimal(4000))
             .insuranceType(InsuranceType.EARTHQUAKE)
             .riskType(RiskType.HIGH);
@@ -45,9 +45,9 @@ class ValidInsuranceRequestImplTest {
     @Test
     void shouldBeValidForLowRisk() {
         Insurance insurance = new Insurance()
-            .coveragePercentage(60)
+            .coveragePercentage(BigDecimal.valueOf(0.60))
             .startDate(Instant.now())
-            .coveragePeriod(2)
+            .coveragePeriod(2L)
             .price(new BigDecimal(4000))
             .insuranceType(InsuranceType.EARTHQUAKE)
             .riskType(RiskType.LOW);

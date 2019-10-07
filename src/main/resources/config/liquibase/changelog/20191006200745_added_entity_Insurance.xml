@@ -21,13 +21,13 @@
             <column name="description" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
-            <column name="coverage_percentage" type="integer">
+            <column name="coverage_percentage" type="decimal(21,2)">
                 <constraints nullable="false" />
             </column>
             <column name="start_date" type="datetime">
                 <constraints nullable="false" />
             </column>
-            <column name="coverage_period" type="integer">
+            <column name="coverage_period" type="bigint">
                 <constraints nullable="false" />
             </column>
             <column name="price" type="decimal(21,2)">

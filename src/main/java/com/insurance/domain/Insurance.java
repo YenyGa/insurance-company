@@ -1,25 +1,17 @@
 package com.insurance.domain;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.insurance.domain.enumeration.InsuranceType;
-import com.insurance.domain.enumeration.RiskType;
-import com.insurance.validator.ValidInsuranceRequest;
-import lombok.Builder;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
+import javax.persistence.*;
+import javax.validation.constraints.*;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.Instant;
+
+import com.insurance.domain.enumeration.InsuranceType;
+
+import com.insurance.domain.enumeration.RiskType;
+import com.insurance.validator.ValidInsuranceRequest;
 
 /**
  * A Insurance.
@@ -43,8 +35,8 @@ public class Insurance implements Serializable {
     private String description;
 
     @NotNull
-    @Column(name = "coverage_percentage", nullable = false)
-    private Integer coveragePercentage;
+    @Column(name = "coverage_percentage", precision = 21, scale = 2, nullable = false)
+    private BigDecimal coveragePercentage;
 
     @NotNull
     @Column(name = "start_date", nullable = false)
@@ -52,7 +44,7 @@ public class Insurance implements Serializable {
 
     @NotNull
     @Column(name = "coverage_period", nullable = false)
-    private Integer coveragePeriod;
+    private Long coveragePeriod;
 
     @NotNull
     @Column(name = "price", precision = 21, scale = 2, nullable = false)
@@ -107,16 +99,16 @@ public class Insurance implements Serializable {
         this.description = description;
     }
 
-    public Integer getCoveragePercentage() {
+    public BigDecimal getCoveragePercentage() {
         return coveragePercentage;
     }
 
-    public Insurance coveragePercentage(Integer coveragePercentage) {
+    public Insurance coveragePercentage(BigDecimal coveragePercentage) {
         this.coveragePercentage = coveragePercentage;
         return this;
     }
 
-    public void setCoveragePercentage(Integer coveragePercentage) {
+    public void setCoveragePercentage(BigDecimal coveragePercentage) {
         this.coveragePercentage = coveragePercentage;
     }
 
@@ -133,16 +125,16 @@ public class Insurance implements Serializable {
         this.startDate = startDate;
     }
 
-    public Integer getCoveragePeriod() {
+    public Long getCoveragePeriod() {
         return coveragePeriod;
     }
 
-    public Insurance coveragePeriod(Integer coveragePeriod) {
+    public Insurance coveragePeriod(Long coveragePeriod) {
         this.coveragePeriod = coveragePeriod;
         return this;
     }
 
-    public void setCoveragePeriod(Integer coveragePeriod) {
+    public void setCoveragePeriod(Long coveragePeriod) {
         this.coveragePeriod = coveragePeriod;
     }
 
