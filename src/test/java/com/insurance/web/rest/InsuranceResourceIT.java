@@ -305,7 +305,7 @@ public class InsuranceResourceIT {
         restInsuranceMockMvc.perform(post("/api/insurances")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(insurance)))
-            .andExpect(status().isBadRequest());
+            .andExpect(status().isInternalServerError());
 
         List<Insurance> insuranceList = insuranceRepository.findAll();
         assertThat(insuranceList).hasSize(databaseSizeBeforeTest);

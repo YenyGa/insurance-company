@@ -1,22 +1,32 @@
 package com.insurance.domain;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.insurance.domain.enumeration.InsuranceType;
+import com.insurance.domain.enumeration.RiskType;
+import com.insurance.validator.ValidInsuranceRequest;
+import lombok.Builder;
 
-import javax.persistence.*;
-import javax.validation.constraints.*;
-
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.Instant;
-
-import com.insurance.domain.enumeration.InsuranceType;
-
-import com.insurance.domain.enumeration.RiskType;
 
 /**
  * A Insurance.
  */
 @Entity
 @Table(name = "insurance")
+@ValidInsuranceRequest
 public class Insurance implements Serializable {
 
     private static final long serialVersionUID = 1L;
