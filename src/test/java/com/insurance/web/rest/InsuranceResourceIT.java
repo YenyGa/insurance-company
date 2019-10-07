@@ -3,11 +3,10 @@ package com.insurance.web.rest;
 import com.insurance.InsuranceApp;
 import com.insurance.domain.Insurance;
 import com.insurance.domain.User;
-import com.insurance.domain.enumeration.InsuranceType;
-import com.insurance.domain.enumeration.RiskType;
 import com.insurance.repository.InsuranceRepository;
 import com.insurance.repository.UserRepository;
 import com.insurance.web.rest.errors.ExceptionTranslator;
+
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -31,13 +30,11 @@ import java.util.List;
 import static com.insurance.web.rest.TestUtil.createFormattingConversionService;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+import com.insurance.domain.enumeration.InsuranceType;
+import com.insurance.domain.enumeration.RiskType;
 /**
  * Integration tests for the {@link InsuranceResource} REST controller.
  */
@@ -50,16 +47,16 @@ public class InsuranceResourceIT {
     private static final String DEFAULT_DESCRIPTION = "AAAAAAAAAA";
     private static final String UPDATED_DESCRIPTION = "BBBBBBBBBB";
 
-    private static final Integer DEFAULT_COVERAGE_PERCENTAGE = 1;
-    private static final Integer UPDATED_COVERAGE_PERCENTAGE = 2;
-    private static final Integer SMALLER_COVERAGE_PERCENTAGE = 1 - 1;
+    private static final BigDecimal DEFAULT_COVERAGE_PERCENTAGE = new BigDecimal(1);
+    private static final BigDecimal UPDATED_COVERAGE_PERCENTAGE = new BigDecimal(2);
+    private static final BigDecimal SMALLER_COVERAGE_PERCENTAGE = new BigDecimal(1 - 1);
 
     private static final Instant DEFAULT_START_DATE = Instant.ofEpochMilli(0L);
     private static final Instant UPDATED_START_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
     private static final Instant SMALLER_START_DATE = Instant.ofEpochMilli(-1L);
 
-    private static final Integer DEFAULT_COVERAGE_PERIOD = 1;
-    private static final Integer UPDATED_COVERAGE_PERIOD = 2;
+    private static final Long DEFAULT_COVERAGE_PERIOD = 1L;
+    private static final Long UPDATED_COVERAGE_PERIOD = 2L;
     private static final Long SMALLER_COVERAGE_PERIOD = 1L - 1L;
 
     private static final BigDecimal DEFAULT_PRICE = new BigDecimal(1);
@@ -305,7 +302,7 @@ public class InsuranceResourceIT {
         restInsuranceMockMvc.perform(post("/api/insurances")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(insurance)))
-            .andExpect(status().isBadRequest());
+            .andExpect(status().isInternalServerError());
 
         List<Insurance> insuranceList = insuranceRepository.findAll();
         assertThat(insuranceList).hasSize(databaseSizeBeforeTest);
@@ -324,7 +321,7 @@ public class InsuranceResourceIT {
             .andExpect(jsonPath("$.[*].id").value(hasItem(insurance.getId().intValue())))
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())))
             .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION.toString())))
-            .andExpect(jsonPath("$.[*].coveragePercentage").value(hasItem(DEFAULT_COVERAGE_PERCENTAGE)))
+            .andExpect(jsonPath("$.[*].coveragePercentage").value(DEFAULT_COVERAGE_PERCENTAGE.intValue()))
             .andExpect(jsonPath("$.[*].startDate").value(hasItem(DEFAULT_START_DATE.toString())))
             .andExpect(jsonPath("$.[*].coveragePeriod").value(hasItem(DEFAULT_COVERAGE_PERIOD.intValue())))
             .andExpect(jsonPath("$.[*].price").value(hasItem(DEFAULT_PRICE.intValue())))
@@ -393,7 +390,7 @@ public class InsuranceResourceIT {
             .andExpect(jsonPath("$.id").value(insurance.getId().intValue()))
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME.toString()))
             .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION.toString()))
-            .andExpect(jsonPath("$.coveragePercentage").value(DEFAULT_COVERAGE_PERCENTAGE))
+            .andExpect(jsonPath("$.coveragePercentage").value(DEFAULT_COVERAGE_PERCENTAGE.intValue()))
             .andExpect(jsonPath("$.startDate").value(DEFAULT_START_DATE.toString()))
             .andExpect(jsonPath("$.coveragePeriod").value(DEFAULT_COVERAGE_PERIOD.intValue()))
             .andExpect(jsonPath("$.price").value(DEFAULT_PRICE.intValue()))
