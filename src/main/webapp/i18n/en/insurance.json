@@ -4,12 +4,13 @@
       "home": {
         "title": "Insurances",
         "createLabel": "Create a new Insurance",
-        "createOrEditLabel": "Create or edit a Insurance",
+        "requestLabel": "Request a new Insurance",
+        "createOrEditLabel": "Create or edit an Insurance",
         "notFound": "No Insurances found"
       },
       "created": "A new Insurance is created with identifier {{ param }}",
-      "updated": "A Insurance is updated with identifier {{ param }}",
-      "deleted": "A Insurance is deleted with identifier {{ param }}",
+      "updated": "An Insurance is updated with identifier {{ param }}",
+      "deleted": "An Insurance is deleted with identifier {{ param }}",
       "delete": {
         "question": "Are you sure you want to delete Insurance {{ id }}?"
       },
