@@ -2,6 +2,18 @@
 
 This application was generated using JHipster 6.3.1, you can find documentation and help at [https://www.jhipster.tech/documentation-archive/v6.3.1](https://www.jhipster.tech/documentation-archive/v6.3.1).
 
+### Swagger
+
+This is the Swagger Url (You must have running both backend and frontend):
+
+http://localhost:{frontend port}/swagger-ui/index.html#/
+
+### H2 Console
+
+This application uses a H2 on disk database. To connect manage you can use this console:
+
+http://localhost:{frontend port}/h2-console/
+
 ## Development
 
 Before you can build this project, you must install and configure the following dependencies on your machine:
@@ -27,16 +39,6 @@ specifying a newer version in [package.json](package.json). You can also run `np
 Add the `help` flag on any command to see how you can use it. For example, `npm help update`.
 
 The `npm run` command will list all of the scripts available to run for this project.
-
-### Swagger
-
-This is the Swagger Url (You must have running both backend and frontend):
-http://localhost:{frontend port}/swagger-ui/index.html#/
-
-### H2 Console
-
-This application uses a H2 on disk database. To connect manage you can use this console:
-http://localhost:{frontend port}/h2-console/
 
 ### Managing dependencies
 
