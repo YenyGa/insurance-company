@@ -38,10 +38,10 @@
                 <td><a [routerLink]="['/insurance', insurance.id, 'view' ]">{{insurance.id}}</a></td>
                 <td>{{insurance.name}}</td>
                 <td>{{insurance.description}}</td>
-                <td>{{insurance.coveragePercentage}}</td>
+                <td>{{insurance.coveragePercentage | percent}}</td>
                 <td>{{insurance.startDate | date:'medium'}}</td>
                 <td>{{insurance.coveragePeriod}}</td>
-                <td>{{insurance.price}}</td>
+                <td>{{insurance.price | currency}}</td>
                 <td jhiTranslate="{{'insuranceApp.InsuranceType.' + insurance.insuranceType}}">{{insurance.insuranceType}}</td>
                 <td jhiTranslate="{{'insuranceApp.RiskType.' + insurance.riskType}}">{{insurance.riskType}}</td>
                 <td>
